@@ -1,25 +1,23 @@
 import System.IO
+import System.Environment
 
 data Symbol = Rock | Paper | Scissors deriving(Show)
 data Result = Win | Draw | Loss deriving(Show)
 
 main = do
-    putStrLn "insert file"
-    file <- getLine
+    args <- getArgs
+    let file = head args
     putStrLn ("reading from file " ++ file)
     content <- readFile file
-
     let linesOfFiles = lines content
     let matches1 = map (\[x, y] -> ((mapSymbol x, mapSymbol y)))(map words linesOfFiles)
     let matches2 = map(\[x, y] -> ((mapSymbol x, mapResult y)))(map words linesOfFiles)
-    print matches2
     let matchResults1 = map evaluateMatch matches1
     let matchResults2 = map evaluateMatchWithResult matches2
-    print(matchResults2)
     let result1 = foldl (\acc el -> (((fst acc) + (fst el)), ((snd acc) + (snd el)))) (0, 0) matchResults1
     let result2 = sum matchResults2
-    print ("End result should be ", result1)
-    print ("result 2 ", result2)
+    print ("End result should be " ++ show result1)
+    print ("result2 " ++ show result2)
 
 
 mapSymbol :: String -> Symbol 

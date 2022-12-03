@@ -1,9 +1,10 @@
 import System.IO
 import Data.List
+import System.Environment
 
 main = do
-    putStrLn "insert file"
-    file <- getLine
+    args <- getArgs
+    let file = head args
     putStrLn ("reading from file " ++ file)
     content <- readFile file
     let linesOfFiles = lines content
